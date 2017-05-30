@@ -11,12 +11,12 @@
 
 %% Options
 
-numTriangles = 6;
+numTriangles = 30;
 
 gifFPS = 16;
 imageSize = 300; % pixels
 
-backgroundColour = [0.5 0.5 0.5]; % default = [.94 .94 .94]
+backgroundColour = [0 0 0]; % default = [.94 .94 .94]
 
 %% Basic setup
 
@@ -44,7 +44,7 @@ images = zeros(imageSize,imageSize,3,numFrames);
 
 % colour = [1 .2 .2]; % updated with thisColour to cycle between R G & B
 
-% colours = rand(numTriangles,3)*0.5+0.5; % constant colour, but random for each triangle
+colours = rand(numTriangles,3); % constant colour, but random for each triangle
 % If using this, probably a good idea to set the background colour to black
 
 %% Loop & store
@@ -83,7 +83,7 @@ end
 %% Export
 
 fprintf('Exporting as .gif to desktop')
-filename = '/Users/Brendan/Desktop/rotating_polygons.gif';
+filename = ['Enter your output location here!' '\rotating_polygons.gif'];
 create_gif(images,filename,gifFPS);
 fprintf('\nExported\n')
 
