@@ -3,15 +3,19 @@
 radii = [10 15 20 25 30 35 40 45 50];
 
 gifFPS = 24;
-imageSize = 200; % pixels
+imageSize = 600; % pixels
 
 backgroundColour = [0 0 0]; % default = [.94 .94 .94]
 
 %% Setup
 
-phaseShiftIncrements = 0:(2*pi)/200:2*pi-pi/200;
+phaseShiftIncrements = 0:(2*pi)/100:2*pi-pi/100;
 numFrames = length(phaseShiftIncrements);
-images = zeros(imageSize,imageSize,3,numFrames);
+if IsWindows
+    images = zeros(imageSize,imageSize,3,numFrames);
+else
+    images = zeros(imageSize*2,imageSize*2,3,numFrames);
+end
 
 %% Draw and store
 
@@ -29,11 +33,11 @@ for phaseShift = phaseShiftIncrements
         xCoords = radii(rad)*sin(x);
         yCoords = radii(rad)*cos(x);
         
-        colours = 0.25 + 0.25*[sin(x+0+phaseShift*mult) ; ...
+        colours = 0.5 + 0.5*[sin(x+0+phaseShift*mult) ; ...
             sin(x+2*pi/3+phaseShift*mult) ; ...
             sin(x + 2*2*pi/3+phaseShift*mult)];
         for a = 1:size(x,2)
-            plot(xCoords(a),yCoords(a),'wo','MarkerFaceColor',colours(:,a),'MarkerEdgeColor','none')
+            plot(xCoords(a),yCoords(a),'wo','MarkerFaceColor',colours(:,a),'MarkerEdgeColor','none','MarkerSize',10)
             hold on
         end
     end
@@ -44,11 +48,8 @@ for phaseShift = phaseShiftIncrements
     
     thisImage = getframe(fig);
     thisImage = double(thisImage.cdata)/255;
-    if IsWindows
-        images(:,:,:,phaseShiftIncrements == phaseShift) = thisImage;
-    else
-        images(:,:,:,phaseShiftIncrements == phaseShift) = thisImage(1:2:end,1:2:end,:);
-    end
+    images(:,:,:,phaseShiftIncrements == phaseShift) = thisImage;
+    
 end
 
 delete(fig)
